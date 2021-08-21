@@ -2,6 +2,9 @@ package com.nyaabot.common.model;
 
 import lombok.Data;
 
+/**
+ * 消息实体类
+ */
 @Data
 public class Message {
     /**

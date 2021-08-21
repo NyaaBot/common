@@ -2,6 +2,9 @@ package com.nyaabot.common.model;
 
 import lombok.Data;
 
+/**
+ * 频道实体类
+ */
 @Data
 public class Channel {
     /**

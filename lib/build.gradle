@@ -9,6 +9,8 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'maven-publish'
+    id 'signing'
     id "org.sonarqube" version "3.3"
     id 'jacoco'
     id "io.freefair.lombok" version "6.1.0"
@@ -37,4 +39,85 @@ dependencies {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+group = 'com.nyaabot'
+version = '0.1'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'common'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'Nyaabot Commons'
+                description = 'Common library for NyaaBot'
+                url = 'https://github.com/NyaaBot/common'
+                properties = [
+                    myProp: "value",
+                    "prop.with.dots": "anotherValue"
+                ]
+                licenses {
+                    license {
+                        name = 'GPL-3.0 License'
+                        url = 'https://github.com/NyaaBot/common/blob/main/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'kagurazakanyaa'
+                        name = 'Kagurazaka Nyaa'
+                        email = 'dev@kagurazakanyaa.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/NyaaBot/common.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:NyaaBot/common.git'
+                    url = 'https://github.com/NyaaBot/common'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/NyaaBot/common"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
