@@ -1,54 +1,67 @@
 package com.nyaabot.common.utils;
 
-import com.nyaabot.common.constant.TelemetryType;
+import com.rabbitmq.client.Address;
 
 /**
  * 配置读取工具类
  */
 public class ConfigUtils {
-    private ConfigUtils() {
+    ConfigUtils() {
     }
 
-    private static String openTelemetryServiceName;
+    private static Address[] amqpAddresses;
 
     /**
-     * Get the OpenTelemetry service name.
+     * 获取AMQP地址列表(以,分割)
      * 
-     * @return The OpenTelemetry service name.
+     * @return AMQP地址列表
      */
-    public static String getOpenTelemetryServiceName() {
-        if (openTelemetryServiceName == null) {
-            openTelemetryServiceName = System.getenv("OPEN_TELEMETRY_SERVICE_NAME");
+    public static Address[] getAmqpAddresses() {
+        if (amqpAddresses == null) {
+            amqpAddresses = Address.parseAddresses(System.getenv("AMQP_ADDRESSES"));
         }
-        return openTelemetryServiceName;
+        return amqpAddresses;
     }
 
-    private static String openTelemetryEndpoint;
+    private static String amqpUsername;
 
     /**
-     * Get the OpenTelemetry endpoint.
+     * 获取AMQP用户名
      * 
-     * @return The OpenTelemetry endpoint.
+     * @return AMQP用户名
      */
-    public static String getOpenTelemetryEndpoint() {
-        if (openTelemetryEndpoint == null) {
-            openTelemetryEndpoint = System.getenv("OPEN_TELEMETRY_ENDPOINT");
+    public static String getAmqpUsername() {
+        if (amqpUsername == null) {
+            amqpUsername = System.getenv("AMQP_USERNAME");
         }
-        return openTelemetryEndpoint;
+        return amqpUsername;
     }
 
-    private static TelemetryType openTelemetryType;
+    private static String amqpPassword;
 
     /**
-     * Get the OpenTelemetry type.
+     * 获取AMQP密码
      * 
-     * @return The OpenTelemetry type.
+     * @return AMQP密码
      */
-    public static TelemetryType getOpenTelemetryType() {
-        if (openTelemetryType == null) {
-            openTelemetryType = TelemetryType.fromString(System.getenv("OPEN_TELEMETRY_TYPE"));
+    public static String getAmqpPassword() {
+        if (amqpPassword == null) {
+            amqpPassword = System.getenv("AMQP_PASSWORD");
         }
-        return openTelemetryType;
+        return amqpPassword;
     }
 
+    private static String amqpVirtualHost;
+
+    /**
+     * 获取AMQP虚拟主机
+     * 
+     * @return AMQP虚拟主机
+     */
+    public static String getAmqpVirtualHost() {
+        if (amqpVirtualHost == null) {
+            amqpVirtualHost = System.getenv("AMQP_VIRTUAL_HOST");
+        }
+        return amqpVirtualHost;
+    }
 }

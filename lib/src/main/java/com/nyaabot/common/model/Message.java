@@ -1,5 +1,9 @@
 package com.nyaabot.common.model;
 
+import java.util.Map;
+
+import com.nyaabot.common.constant.RoutingKey;
+
 import lombok.Data;
 
 /**
@@ -13,6 +17,16 @@ public class Message {
     private Long timestamp;
 
     /**
+     * 路由标志
+     */
+    private RoutingKey routingKey;
+
+    /**
+     * 消息元数据
+     */
+    private Map<String, String> metadata;
+
+    /**
      * 消息内容
      */
     private String content;
@@ -21,4 +35,5 @@ public class Message {
      * 附加内容
      */
     private Object extra;
+
 }

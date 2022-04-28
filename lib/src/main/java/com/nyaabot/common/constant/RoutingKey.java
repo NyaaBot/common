@@ -3,7 +3,7 @@ package com.nyaabot.common.constant;
 /**
  * 路由常量
  */
-public enum Routing {
+public enum RoutingKey {
     /**
      * 路由前队列
      */
@@ -23,7 +23,7 @@ public enum Routing {
 
     private String value;
 
-    Routing(final String value) {
+    RoutingKey(final String value) {
         this.value = value;
     }
 
